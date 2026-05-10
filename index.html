@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>W杯優勝予想バトル 2026</title>
+<title>2026年W杯ダービー</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -87,8 +87,8 @@
 <body>
 <div class="container">
   <div class="header">
-    <div class="header-eyebrow">FIFA World Cup 2026</div>
-    <div class="header-title">優勝<span>予想</span><br>バトル</div>
+    <div class="header-eyebrow">2026年W杯ダービー</div>
+    <div class="header-title">2026年<br>W杯<span>ダービー</span></div>
     <div class="rule-badge">
       <span class="rule-pill">優勝的中 7pt</span>
       <span class="rule-pill">準優勝 5pt</span>
@@ -97,7 +97,7 @@
     </div>
   </div>
  
-  <div class="setup-banner" id="setupBanner">
+  <div class="setup-banner" id="setupBanner" style="display:none;">
     <div class="setup-label">⚙️ 初回設定：Google Apps Script の URL を入力してください</div>
     <input class="setup-input" type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/xxxxxx/exec">
     <button class="setup-btn" onclick="saveGasUrl()">設定して始める</button>
@@ -168,7 +168,7 @@ const COUNTRIES = [
 const RANK_COLORS = {1:'var(--gold)', 2:'#b0bec5', 3:'#cd7c3b'};
 const RANK_MEDALS = {1:'🥇', 2:'🥈', 3:'🥉'};
 let picks = {1:null, 2:null, 3:null};
-let GAS_URL = localStorage.getItem('wc_gas_url') || '';
+let GAS_URL = 'https://script.google.com/macros/s/AKfycby0Xacpezvy39X_yTsydGdaByTt3NfBFk5A9bE2E7AiUZMaoCbW0QreIYZd8gv_VwIgOg/exec';
 let cachedEntries = [];
  
 function saveGasUrl() {
@@ -344,11 +344,7 @@ function showToast(msg, isError=false) {
 }
  
 // Init
-if (GAS_URL) {
-  loadEntries();
-} else {
-  document.getElementById('setupBanner').classList.add('visible');
-}
+loadEntries();
 buildGrid();
 buildResultSelects();
 </script>
