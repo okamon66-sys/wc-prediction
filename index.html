@@ -8,7 +8,6 @@
 <style>
   :root {
     --gold: #F5C842;
-    --gold-dim: #C9A020;
     --bg: #0a0e1a;
     --surface: #131828;
     --surface2: #1c2438;
@@ -28,113 +27,58 @@
                       radial-gradient(ellipse at 80% 100%, rgba(61,100,200,0.08) 0%, transparent 60%);
   }
   .container { max-width: 680px; margin: 0 auto; padding: 24px 20px 80px; }
-
   .header { text-align: center; padding: 32px 0 40px; }
   .header-eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 8px; }
   .header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 72px); line-height: 0.9; letter-spacing: 0.02em; }
   .header-title span { color: var(--gold); }
-  .header-sub { font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
   .rule-badge { display: flex; gap: 8px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
   .rule-pill { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--gold); }
-
-  /* GASのURL設定エリア */
-  .setup-banner {
-    background: var(--surface2); border: 1px solid var(--gold); border-radius: 10px;
-    padding: 16px; margin-bottom: 24px; display: none;
-  }
+  .setup-banner { background: var(--surface2); border: 1px solid var(--gold); border-radius: 10px; padding: 16px; margin-bottom: 24px; display: none; }
   .setup-banner.visible { display: block; }
   .setup-label { font-size: 12px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
   .setup-input { width: 100%; background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; outline: none; }
   .setup-btn { margin-top: 8px; width: 100%; padding: 10px; background: var(--gold); color: var(--bg); border: none; border-radius: 6px; font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.1em; cursor: pointer; }
-
   .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 28px; }
-  .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-left: none; border-right: none; border-top: none; font-family: 'Noto Sans JP', sans-serif; }
+  .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; background: none; border-left: none; border-right: none; border-top: none; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; }
   .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
   .tab-pane { display: none; }
   .tab-pane.active { display: block; }
-
   .field { margin-bottom: 20px; }
   .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
-  .field input[type=text] {
-    width: 100%; background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: 8px; padding: 12px 14px; font-size: 15px; color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif; outline: none; transition: border-color 0.2s;
-  }
-  .field input[type=text]:focus { border-color: var(--gold); }
-
-  .country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
-  .country-btn {
-    background: var(--surface); border: 0.5px solid var(--border); border-radius: 8px;
-    padding: 10px 8px; text-align: center; cursor: pointer; transition: all 0.15s;
-    font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif;
-  }
+  .field input[type=text] { width: 100%; background: var(--surface); border: 0.5px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 15px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; outline: none; }
+  .sel-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+  .sel-box { flex: 1; background: var(--surface); border: 0.5px solid var(--border); border-radius: 8px; padding: 8px 4px; text-align: center; }
+  .sel-box .rank-label { font-size: 11px; margin-bottom: 4px; }
+  .sel-box .sel-name { font-size: 12px; color: var(--muted); }
+  .hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 12px; }
+  .country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+  .country-btn { background: var(--surface); border: 0.5px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; cursor: pointer; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; transition: all 0.15s; position: relative; }
   .country-btn:hover { border-color: rgba(245,200,66,0.5); background: var(--surface2); }
   .country-btn.selected { border-color: var(--gold); background: rgba(245,200,66,0.1); color: var(--gold); font-weight: 700; }
-  .flag { font-size: 22px; display: block; margin-bottom: 4px; }
-
-  .rank-section { margin-bottom: 24px; }
-  .rank-label { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.05em; margin-bottom: 10px; }
-  .rank-1 { color: var(--gold); }
-  .rank-2 { color: #b0bec5; }
-  .rank-3 { color: #cd7c3b; }
-
-  .submit-btn {
-    width: 100%; padding: 16px; background: var(--gold); color: var(--bg);
-    border: none; border-radius: 8px; font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; letter-spacing: 0.1em; cursor: pointer; transition: opacity 0.2s; margin-top: 8px;
-  }
-  .submit-btn:hover { opacity: 0.88; }
+  .rank-badge { position: absolute; top: 3px; right: 5px; font-size: 11px; }
+  .submit-btn { width: 100%; padding: 16px; background: var(--gold); color: var(--bg); border: none; border-radius: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.1em; cursor: pointer; margin-top: 16px; }
   .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .entry-card {
-    background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px;
-    padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center;
-  }
+  .entry-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center; }
   .entry-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
   .entry-name { font-size: 14px; font-weight: 700; }
   .entry-picks { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
   .pick-chip { font-size: 11px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 8px; }
-  .pick-chip span { opacity: 0.6; margin-right: 3px; }
-
+  .count-badge { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 12px; color: var(--muted); margin-left: 8px; }
   .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .result-row label { font-size: 12px; color: var(--muted); min-width: 60px; }
-  .result-select {
-    background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px;
-    padding: 8px 10px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; outline: none; flex: 1;
-  }
-  .calc-btn {
-    width: 100%; padding: 13px; background: transparent; color: var(--gold);
-    border: 0.5px solid var(--gold); border-radius: 8px; font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px; letter-spacing: 0.1em; cursor: pointer; margin-top: 8px; transition: all 0.2s;
-  }
-  .calc-btn:hover { background: rgba(245,200,66,0.1); }
-
+  .result-select { background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; outline: none; flex: 1; }
+  .calc-btn { width: 100%; padding: 13px; background: transparent; color: var(--gold); border: 0.5px solid var(--gold); border-radius: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.1em; cursor: pointer; margin-top: 8px; }
   .winner-banner { background: rgba(245,200,66,0.1); border: 1px solid var(--gold); border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 16px; }
-  .winner-crown { font-size: 32px; margin-bottom: 8px; }
   .winner-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); }
   .winner-prize { font-size: 13px; color: var(--muted); margin-top: 4px; }
   .winner-prize strong { color: var(--green); font-size: 18px; }
-
   .ranking-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
   .rank-pos { font-family: 'Bebas Neue', sans-serif; font-size: 22px; width: 28px; text-align: center; }
-  .rank-pos.p1 { color: var(--gold); }
-  .rank-pos.p2 { color: #b0bec5; }
-  .rank-pos.p3 { color: #cd7c3b; }
-  .rank-pos.pn { color: var(--muted); }
-  .rank-name { flex: 1; font-size: 14px; font-weight: 700; }
-  .rank-picks-sm { font-size: 11px; color: var(--muted); }
-  .rank-pts { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
-  .rank-payout { font-size: 13px; color: var(--green); }
-  .rank-payout.lose { color: var(--red); }
-
-  .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
-  .loading-spin { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .empty { text-align: center; padding: 48px 0; color: var(--muted); font-size: 14px; }
+  .rank-pos.p1 { color: var(--gold); } .rank-pos.p2 { color: #b0bec5; } .rank-pos.p3 { color: #cd7c3b; } .rank-pos.pn { color: var(--muted); }
+  .rank-payout { font-size: 13px; color: var(--green); } .rank-payout.lose { color: var(--red); }
   .section-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
-  .divider { border: none; border-top: 0.5px solid var(--border); margin: 20px 0; }
-  .count-badge { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 12px; color: var(--muted); margin-left: 8px; }
-
+  .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+  .empty { text-align: center; padding: 48px 0; color: var(--muted); font-size: 14px; }
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--green); color: #0a0e1a; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; white-space: nowrap; }
   .toast.show { opacity: 1; }
   .toast.error { background: var(--red); color: #fff; }
@@ -145,7 +89,6 @@
   <div class="header">
     <div class="header-eyebrow">FIFA World Cup 2026</div>
     <div class="header-title">優勝<span>予想</span><br>バトル</div>
-    <div class="header-sub">1〜3位を予想して最高得点の人が総取り</div>
     <div class="rule-badge">
       <span class="rule-pill">優勝的中 7pt</span>
       <span class="rule-pill">準優勝 5pt</span>
@@ -154,8 +97,7 @@
     </div>
   </div>
 
-  <!-- GAS URL 設定バナー -->
-  <div class="setup-banner visible" id="setupBanner">
+  <div class="setup-banner" id="setupBanner">
     <div class="setup-label">⚙️ 初回設定：Google Apps Script の URL を入力してください</div>
     <input class="setup-input" type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/xxxxxx/exec">
     <button class="setup-btn" onclick="saveGasUrl()">設定して始める</button>
@@ -167,47 +109,39 @@
     <button class="tab" onclick="switchTab('result')">結果・精算</button>
   </div>
 
-  <!-- 投票タブ -->
   <div class="tab-pane active" id="pane-vote">
     <div class="field">
       <label>ニックネーム</label>
       <input type="text" id="nickname" placeholder="例: タロウ" maxlength="20">
     </div>
-    <div class="rank-section">
-      <div class="rank-label rank-1">🥇 優勝（7pt）</div>
-      <div class="country-grid" id="grid1"></div>
+    <div class="sel-bar">
+      <div class="sel-box">
+        <div class="rank-label" style="color:var(--gold);">🥇 優勝 7pt</div>
+        <div class="sel-name" id="sel1-name">タップして選択</div>
+      </div>
+      <div class="sel-box">
+        <div class="rank-label" style="color:#b0bec5;">🥈 準優勝 5pt</div>
+        <div class="sel-name" id="sel2-name">タップして選択</div>
+      </div>
+      <div class="sel-box">
+        <div class="rank-label" style="color:#cd7c3b;">🥉 3位 3pt</div>
+        <div class="sel-name" id="sel3-name">タップして選択</div>
+      </div>
     </div>
-    <div class="rank-section">
-      <div class="rank-label rank-2">🥈 準優勝（5pt）</div>
-      <div class="country-grid" id="grid2"></div>
-    </div>
-    <div class="rank-section">
-      <div class="rank-label rank-3">🥉 3位（3pt）</div>
-      <div class="country-grid" id="grid3"></div>
-    </div>
+    <div class="hint">クリックした順に 1位→2位→3位 が確定。もう一度クリックで解除。</div>
+    <div class="country-grid" id="countryGrid"></div>
     <button class="submit-btn" id="submitBtn" onclick="submitVote()">投票する</button>
   </div>
 
-  <!-- エントリー一覧タブ -->
   <div class="tab-pane" id="pane-entries">
     <div id="entriesList"></div>
   </div>
 
-  <!-- 結果・精算タブ -->
   <div class="tab-pane" id="pane-result">
     <div class="section-title">実際の結果を入力</div>
-    <div class="result-row">
-      <label>🥇 優勝国</label>
-      <select class="result-select" id="res1"></select>
-    </div>
-    <div class="result-row">
-      <label>🥈 準優勝</label>
-      <select class="result-select" id="res2"></select>
-    </div>
-    <div class="result-row">
-      <label>🥉 3位</label>
-      <select class="result-select" id="res3"></select>
-    </div>
+    <div class="result-row"><label>🥇 優勝国</label><select class="result-select" id="res1"></select></div>
+    <div class="result-row"><label>🥈 準優勝</label><select class="result-select" id="res2"></select></div>
+    <div class="result-row"><label>🥉 3位</label><select class="result-select" id="res3"></select></div>
     <div class="field" style="margin-top:16px;">
       <label>一人あたり拠出額（円）</label>
       <input type="text" id="stakeInput" value="10000">
@@ -221,14 +155,18 @@
 
 <script>
 const COUNTRIES = [
-  {name:'ブラジル', flag:'🇧🇷'},{name:'フランス', flag:'🇫🇷'},{name:'イングランド', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
-  {name:'アルゼンチン', flag:'🇦🇷'},{name:'スペイン', flag:'🇪🇸'},{name:'ドイツ', flag:'🇩🇪'},
-  {name:'ポルトガル', flag:'🇵🇹'},{name:'オランダ', flag:'🇳🇱'},{name:'ベルギー', flag:'🇧🇪'},
-  {name:'イタリア', flag:'🇮🇹'},{name:'クロアチア', flag:'🇭🇷'},{name:'モロッコ', flag:'🇲🇦'},
-  {name:'日本', flag:'🇯🇵'},{name:'アメリカ', flag:'🇺🇸'},{name:'メキシコ', flag:'🇲🇽'},
-  {name:'コロンビア', flag:'🇨🇴'},
+  'アルゼンチン','ブラジル','コロンビア','エクアドル','パラグアイ','ウルグアイ',
+  'スペイン','フランス','イングランド','ドイツ','ポルトガル','オランダ',
+  'ベルギー','クロアチア','デンマーク','オーストリア','スコットランド','ハンガリー',
+  'ルーマニア','スロバキア','スイス','セルビア','チェコ','トルコ','ノルウェー','ウクライナ',
+  'アメリカ','メキシコ','カナダ','パナマ','ホンジュラス','キュラソー',
+  '日本','韓国','オーストラリア','イラン','サウジアラビア','イラク','ヨルダン','ウズベキスタン',
+  'モロッコ','エジプト','セネガル','コートジボワール','ナイジェリア','南アフリカ','カメルーン','チュニジア',
+  'ニュージーランド'
 ];
 
+const RANK_COLORS = {1:'var(--gold)', 2:'#b0bec5', 3:'#cd7c3b'};
+const RANK_MEDALS = {1:'🥇', 2:'🥈', 3:'🥉'};
 let picks = {1:null, 2:null, 3:null};
 let GAS_URL = localStorage.getItem('wc_gas_url') || '';
 let cachedEntries = [];
@@ -243,42 +181,62 @@ function saveGasUrl() {
   loadEntries();
 }
 
-function getFlag(name) { return (COUNTRIES.find(c=>c.name===name)||{flag:''}).flag; }
-
-function buildGrid(rank) {
-  const el = document.getElementById('grid'+rank);
-  el.innerHTML = COUNTRIES.map(c => `
-    <button class="country-btn" data-rank="${rank}" data-name="${c.name}" onclick="pickCountry(${rank},'${c.name}')">
-      <span class="flag">${c.flag}</span>${c.name}
-    </button>`).join('');
+function buildGrid() {
+  const el = document.getElementById('countryGrid');
+  el.innerHTML = COUNTRIES.map(name =>
+    `<button class="country-btn" data-name="${name}" onclick="pickCountry('${name}')">${name}</button>`
+  ).join('');
 }
 
-function pickCountry(rank, name) {
-  for(let r=1;r<=3;r++) { if(r!==rank && picks[r]===name) { showToast('他の順位で選択済みです', true); return; } }
-  picks[rank] = name;
+function pickCountry(name) {
+  const currentRank = [1,2,3].find(r => picks[r] === name);
+  if (currentRank) {
+    picks[currentRank] = null;
+    if (currentRank === 1 && picks[2]) { picks[1] = picks[2]; picks[2] = picks[3]; picks[3] = null; }
+    else if (currentRank === 2 && picks[3]) { picks[2] = picks[3]; picks[3] = null; }
+  } else {
+    const next = [1,2,3].find(r => !picks[r]);
+    if (!next) { showToast('すでに3カ国選択済みです。解除してから選んでください', true); return; }
+    picks[next] = name;
+  }
+  updateSelectionUI();
+}
+
+function updateSelectionUI() {
   [1,2,3].forEach(r => {
-    document.querySelectorAll(`[data-rank="${r}"]`).forEach(btn => {
-      btn.classList.toggle('selected', btn.dataset.name === picks[r]);
-    });
+    const el = document.getElementById('sel' + r + '-name');
+    if (picks[r]) { el.textContent = picks[r]; el.style.color = RANK_COLORS[r]; }
+    else { el.textContent = 'タップして選択'; el.style.color = 'var(--muted)'; }
+  });
+  document.querySelectorAll('.country-btn').forEach(btn => {
+    const rank = [1,2,3].find(r => picks[r] === btn.dataset.name);
+    btn.className = 'country-btn' + (rank ? ' selected' : '');
+    let badge = btn.querySelector('.rank-badge');
+    if (rank) {
+      if (!badge) { badge = document.createElement('span'); badge.className = 'rank-badge'; btn.appendChild(badge); }
+      badge.textContent = RANK_MEDALS[rank];
+    } else {
+      if (badge) badge.remove();
+    }
   });
 }
 
 function buildResultSelects() {
-  const opts = `<option value="">---</option>` + COUNTRIES.map(c=>`<option value="${c.name}">${c.flag} ${c.name}</option>`).join('');
+  const opts = '<option value="">---</option>' + COUNTRIES.map(n => `<option value="${n}">${n}</option>`).join('');
   ['res1','res2','res3'].forEach(id => { document.getElementById(id).innerHTML = opts; });
 }
 
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['vote','entries','result'][i]===tab));
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['vote','entries','result'][i] === tab));
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.getElementById('pane-'+tab).classList.add('active');
-  if(tab==='entries' || tab==='result') loadEntries();
+  document.getElementById('pane-' + tab).classList.add('active');
+  if (tab === 'entries' || tab === 'result') loadEntries();
 }
 
 async function loadEntries() {
-  if(!GAS_URL) return;
+  if (!GAS_URL) return;
   const el = document.getElementById('entriesList');
-  if(el) el.innerHTML = '<div class="loading"><span class="loading-spin"></span>読み込み中...</div>';
+  if (el) el.innerHTML = '<div class="loading">読み込み中...</div>';
   try {
     const res = await fetch(GAS_URL + '?action=getEntries');
     const data = await res.json();
@@ -286,51 +244,48 @@ async function loadEntries() {
     document.getElementById('entryCount').textContent = cachedEntries.length;
     renderEntries();
   } catch(e) {
-    if(el) el.innerHTML = '<div class="empty">データの取得に失敗しました</div>';
+    if (el) el.innerHTML = '<div class="empty">データの取得に失敗しました</div>';
   }
 }
 
 function renderEntries() {
   const el = document.getElementById('entriesList');
-  if(!el) return;
-  if(!cachedEntries.length) { el.innerHTML='<div class="empty">まだ投票がありません</div>'; return; }
-  el.innerHTML = cachedEntries.map(e=>`
+  if (!el) return;
+  if (!cachedEntries.length) { el.innerHTML = '<div class="empty">まだ投票がありません</div>'; return; }
+  el.innerHTML = cachedEntries.map(e => `
     <div class="entry-card">
       <div class="entry-avatar">${e.name[0]}</div>
-      <div style="flex:1;min-width:0">
+      <div style="flex:1">
         <div class="entry-name">${e.name}</div>
         <div class="entry-picks">
-          <span class="pick-chip"><span>🥇</span>${getFlag(e.p1)} ${e.p1}</span>
-          <span class="pick-chip"><span>🥈</span>${getFlag(e.p2)} ${e.p2}</span>
-          <span class="pick-chip"><span>🥉</span>${getFlag(e.p3)} ${e.p3}</span>
+          <span class="pick-chip">🥇 ${e.p1}</span>
+          <span class="pick-chip">🥈 ${e.p2}</span>
+          <span class="pick-chip">🥉 ${e.p3}</span>
         </div>
       </div>
     </div>`).join('');
 }
 
 async function submitVote() {
-  if(!GAS_URL) { showToast('先にGAS URLを設定してください', true); return; }
+  if (!GAS_URL) { showToast('先にGAS URLを設定してください', true); return; }
   const name = document.getElementById('nickname').value.trim();
-  if(!name) { showToast('ニックネームを入力してください', true); return; }
-  if(!picks[1]||!picks[2]||!picks[3]) { showToast('1〜3位をすべて選択してください', true); return; }
-
+  if (!name) { showToast('ニックネームを入力してください', true); return; }
+  if (!picks[1] || !picks[2] || !picks[3]) { showToast('1〜3位をすべて選択してください', true); return; }
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '送信中...';
-
+  btn.disabled = true; btn.textContent = '送信中...';
   try {
     const res = await fetch(GAS_URL, {
       method: 'POST',
       body: JSON.stringify({ action:'addEntry', name, p1:picks[1], p2:picks[2], p3:picks[3] })
     });
     const data = await res.json();
-    if(data.ok) {
-      picks={1:null,2:null,3:null};
-      document.getElementById('nickname').value='';
-      [1,2,3].forEach(r=>document.querySelectorAll(`[data-rank="${r}"]`).forEach(b=>b.classList.remove('selected')));
+    if (data.ok) {
+      picks = {1:null, 2:null, 3:null};
+      document.getElementById('nickname').value = '';
+      updateSelectionUI();
       showToast('投票完了！');
       loadEntries();
-    } else if(data.error==='duplicate') {
+    } else if (data.error === 'duplicate') {
       showToast('そのニックネームはすでに投票済みです', true);
     } else {
       showToast('エラーが発生しました', true);
@@ -338,8 +293,7 @@ async function submitVote() {
   } catch(e) {
     showToast('通信エラーです', true);
   } finally {
-    btn.disabled = false;
-    btn.textContent = '投票する';
+    btn.disabled = false; btn.textContent = '投票する';
   }
 }
 
@@ -347,75 +301,53 @@ function calcResult() {
   const r1 = document.getElementById('res1').value;
   const r2 = document.getElementById('res2').value;
   const r3 = document.getElementById('res3').value;
-  const stake = parseInt(document.getElementById('stakeInput').value)||10000;
-  if(!r1||!r2||!r3) { showToast('1〜3位をすべて入力してください', true); return; }
-  if(!cachedEntries.length) { document.getElementById('resultOutput').innerHTML='<div class="empty">先に「エントリー」タブを開いてデータを読み込んでください</div>'; return; }
-
+  const stake = parseInt(document.getElementById('stakeInput').value) || 10000;
+  if (!r1 || !r2 || !r3) { showToast('1〜3位をすべて入力してください', true); return; }
+  if (!cachedEntries.length) { document.getElementById('resultOutput').innerHTML = '<div class="empty">先に「エントリー」タブを開いてデータを読み込んでください</div>'; return; }
   const pool = cachedEntries.length * stake;
   const scored = cachedEntries.map(e => {
     let pt = 0;
-    if(e.p1===r1) pt+=7;
-    if(e.p2===r2) pt+=5;
-    if(e.p3===r3) pt+=3;
+    if (e.p1 === r1) pt += 7;
+    if (e.p2 === r2) pt += 5;
+    if (e.p3 === r3) pt += 3;
     return {...e, pt};
-  }).sort((a,b)=>b.pt-a.pt);
-
+  }).sort((a,b) => b.pt - a.pt);
   const maxPt = scored[0].pt;
-  const winners = scored.filter(e=>e.pt===maxPt);
-  const prizeEach = maxPt>0 ? Math.round(pool/winners.length) : 0;
-
-  let html = '';
-  if(maxPt > 0) {
-    html += `<div class="winner-banner">
-      <div class="winner-crown">🏆</div>
-      <div class="winner-name">${winners.map(w=>w.name).join(' & ')}</div>
-      <div class="winner-prize">獲得賞金 <strong>¥${prizeEach.toLocaleString()}</strong>${winners.length>1?' (山分け)':''}</div>
-    </div>`;
-  } else {
-    html += `<div class="winner-banner" style="border-color:var(--muted)">
-      <div class="winner-crown">😅</div>
-      <div class="winner-name" style="color:var(--muted);font-size:22px">全員ハズレ</div>
-    </div>`;
-  }
-
+  const winners = scored.filter(e => e.pt === maxPt);
+  const prizeEach = maxPt > 0 ? Math.round(pool / winners.length) : 0;
+  let html = maxPt > 0
+    ? `<div class="winner-banner"><div style="font-size:32px;">🏆</div><div class="winner-name">${winners.map(w=>w.name).join(' & ')}</div><div class="winner-prize">獲得賞金 <strong>¥${prizeEach.toLocaleString()}</strong>${winners.length > 1 ? ' (山分け)' : ''}</div></div>`
+    : `<div class="winner-banner" style="border-color:var(--muted)"><div style="font-size:32px;">😅</div><div class="winner-name" style="color:var(--muted);font-size:22px;">全員ハズレ</div></div>`;
   html += `<div class="section-title">最終ランキング（総プール ¥${pool.toLocaleString()}）</div>`;
   scored.forEach((e,i) => {
-    const isWinner = e.pt===maxPt && maxPt>0;
-    const payout = isWinner ? prizeEach : 0;
-    const net = payout - stake;
-    const pos = i+1;
-    const cls = pos===1?'p1':pos===2?'p2':pos===3?'p3':'pn';
+    const isWinner = e.pt === maxPt && maxPt > 0;
+    const net = (isWinner ? prizeEach : 0) - stake;
+    const cls = ['','p1','p2','p3'][i+1] || 'pn';
     html += `<div class="ranking-row">
-      <div class="rank-pos ${cls}">${pos}</div>
-      <div style="flex:1">
-        <div class="rank-name">${e.name}</div>
-        <div class="rank-picks-sm">${getFlag(e.p1)}${e.p1} / ${getFlag(e.p2)}${e.p2} / ${getFlag(e.p3)}${e.p3}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="rank-pts">${e.pt}pt</div>
-        <div class="rank-payout ${net>=0?'':'lose'}">${net>=0?'+':''}${net.toLocaleString()}円</div>
-      </div>
+      <div class="rank-pos ${cls}">${i+1}</div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:700;">${e.name}</div>
+      <div style="font-size:11px;color:var(--muted);">${e.p1} / ${e.p2} / ${e.p3}</div></div>
+      <div style="text-align:right"><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;">${e.pt}pt</div>
+      <div class="rank-payout ${net>=0?'':'lose'}">${net>=0?'+':''}${net.toLocaleString()}円</div></div>
     </div>`;
   });
-
   document.getElementById('resultOutput').innerHTML = html;
 }
 
 function showToast(msg, isError=false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast' + (isError?' error':'') + ' show';
-  setTimeout(()=>t.classList.remove('show'), 2400);
+  t.className = 'toast' + (isError ? ' error' : '') + ' show';
+  setTimeout(() => t.classList.remove('show'), 2400);
 }
 
 // Init
-if(GAS_URL) {
-  document.getElementById('setupBanner').classList.remove('visible');
+if (GAS_URL) {
   loadEntries();
 } else {
-  document.getElementById('gasUrlInput').value = '';
+  document.getElementById('setupBanner').classList.add('visible');
 }
-[1,2,3].forEach(buildGrid);
+buildGrid();
 buildResultSelects();
 </script>
 </body>
