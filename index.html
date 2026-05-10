@@ -29,23 +29,30 @@
   }
   .container { max-width: 680px; margin: 0 auto; padding: 24px 20px 80px; }
 
-  /* Header */
-  .header { text-align: center; padding: 32px 0 40px; position: relative; }
+  .header { text-align: center; padding: 32px 0 40px; }
   .header-eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 8px; }
-  .header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 72px); line-height: 0.9; color: var(--text); letter-spacing: 0.02em; }
+  .header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 72px); line-height: 0.9; letter-spacing: 0.02em; }
   .header-title span { color: var(--gold); }
   .header-sub { font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
-  .rule-badge { display: inline-flex; gap: 8px; margin-top: 16px; }
+  .rule-badge { display: flex; gap: 8px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
   .rule-pill { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--gold); }
 
-  /* Tabs */
-  .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 28px; gap: 0; }
+  /* GASのURL設定エリア */
+  .setup-banner {
+    background: var(--surface2); border: 1px solid var(--gold); border-radius: 10px;
+    padding: 16px; margin-bottom: 24px; display: none;
+  }
+  .setup-banner.visible { display: block; }
+  .setup-label { font-size: 12px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .setup-input { width: 100%; background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; outline: none; }
+  .setup-btn { margin-top: 8px; width: 100%; padding: 10px; background: var(--gold); color: var(--bg); border: none; border-radius: 6px; font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.1em; cursor: pointer; }
+
+  .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 28px; }
   .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-left: none; border-right: none; border-top: none; font-family: 'Noto Sans JP', sans-serif; }
   .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
   .tab-pane { display: none; }
   .tab-pane.active { display: block; }
 
-  /* Vote form */
   .field { margin-bottom: 20px; }
   .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
   .field input[type=text] {
@@ -74,13 +81,11 @@
   .submit-btn {
     width: 100%; padding: 16px; background: var(--gold); color: var(--bg);
     border: none; border-radius: 8px; font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; letter-spacing: 0.1em; cursor: pointer; transition: opacity 0.2s;
-    margin-top: 8px;
+    font-size: 20px; letter-spacing: 0.1em; cursor: pointer; transition: opacity 0.2s; margin-top: 8px;
   }
   .submit-btn:hover { opacity: 0.88; }
   .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* Results */
   .entry-card {
     background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px;
     padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center;
@@ -90,16 +95,12 @@
   .entry-picks { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
   .pick-chip { font-size: 11px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 8px; }
   .pick-chip span { opacity: 0.6; margin-right: 3px; }
-  .entry-pts { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); margin-left: auto; flex-shrink: 0; }
-  .pts-label { font-size: 10px; color: var(--muted); font-family: 'Noto Sans JP'; font-weight: 400; }
 
-  /* Result admin */
   .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .result-row label { font-size: 12px; color: var(--muted); min-width: 60px; }
   .result-select {
     background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px;
-    padding: 8px 10px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif;
-    outline: none; flex: 1;
+    padding: 8px 10px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; outline: none; flex: 1;
   }
   .calc-btn {
     width: 100%; padding: 13px; background: transparent; color: var(--gold);
@@ -123,16 +124,20 @@
   .rank-name { flex: 1; font-size: 14px; font-weight: 700; }
   .rank-picks-sm { font-size: 11px; color: var(--muted); }
   .rank-pts { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
-  .rank-payout { font-size: 13px; color: var(--green); text-align: right; min-width: 80px; }
+  .rank-payout { font-size: 13px; color: var(--green); }
   .rank-payout.lose { color: var(--red); }
 
+  .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+  .loading-spin { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   .empty { text-align: center; padding: 48px 0; color: var(--muted); font-size: 14px; }
-
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--green); color: #0a0e1a; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
-  .toast.show { opacity: 1; }
-
-  .divider { border: none; border-top: 0.5px solid var(--border); margin: 20px 0; }
   .section-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 20px 0; }
+  .count-badge { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 12px; color: var(--muted); margin-left: 8px; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--green); color: #0a0e1a; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; white-space: nowrap; }
+  .toast.show { opacity: 1; }
+  .toast.error { background: var(--red); color: #fff; }
 </style>
 </head>
 <body>
@@ -149,9 +154,16 @@
     </div>
   </div>
 
+  <!-- GAS URL 設定バナー -->
+  <div class="setup-banner visible" id="setupBanner">
+    <div class="setup-label">⚙️ 初回設定：Google Apps Script の URL を入力してください</div>
+    <input class="setup-input" type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/xxxxxx/exec">
+    <button class="setup-btn" onclick="saveGasUrl()">設定して始める</button>
+  </div>
+
   <div class="tabs">
     <button class="tab active" onclick="switchTab('vote')">投票する</button>
-    <button class="tab" onclick="switchTab('entries')">エントリー一覧</button>
+    <button class="tab" onclick="switchTab('entries')">エントリー <span id="entryCount" class="count-badge">-</span></button>
     <button class="tab" onclick="switchTab('result')">結果・精算</button>
   </div>
 
@@ -198,7 +210,7 @@
     </div>
     <div class="field" style="margin-top:16px;">
       <label>一人あたり拠出額（円）</label>
-      <input type="text" id="stakeInput" value="10000" placeholder="10000">
+      <input type="text" id="stakeInput" value="10000">
     </div>
     <button class="calc-btn" onclick="calcResult()">得点・配分を計算する</button>
     <div id="resultOutput" style="margin-top:20px;"></div>
@@ -209,33 +221,29 @@
 
 <script>
 const COUNTRIES = [
-  {name:'ブラジル', flag:'🇧🇷'},
-  {name:'フランス', flag:'🇫🇷'},
-  {name:'イングランド', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
-  {name:'アルゼンチン', flag:'🇦🇷'},
-  {name:'スペイン', flag:'🇪🇸'},
-  {name:'ドイツ', flag:'🇩🇪'},
-  {name:'ポルトガル', flag:'🇵🇹'},
-  {name:'オランダ', flag:'🇳🇱'},
-  {name:'ベルギー', flag:'🇧🇪'},
-  {name:'イタリア', flag:'🇮🇹'},
-  {name:'クロアチア', flag:'🇭🇷'},
-  {name:'モロッコ', flag:'🇲🇦'},
-  {name:'日本', flag:'🇯🇵'},
-  {name:'アメリカ', flag:'🇺🇸'},
-  {name:'メキシコ', flag:'🇲🇽'},
+  {name:'ブラジル', flag:'🇧🇷'},{name:'フランス', flag:'🇫🇷'},{name:'イングランド', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
+  {name:'アルゼンチン', flag:'🇦🇷'},{name:'スペイン', flag:'🇪🇸'},{name:'ドイツ', flag:'🇩🇪'},
+  {name:'ポルトガル', flag:'🇵🇹'},{name:'オランダ', flag:'🇳🇱'},{name:'ベルギー', flag:'🇧🇪'},
+  {name:'イタリア', flag:'🇮🇹'},{name:'クロアチア', flag:'🇭🇷'},{name:'モロッコ', flag:'🇲🇦'},
+  {name:'日本', flag:'🇯🇵'},{name:'アメリカ', flag:'🇺🇸'},{name:'メキシコ', flag:'🇲🇽'},
   {name:'コロンビア', flag:'🇨🇴'},
 ];
 
-const STORAGE_KEY = 'wc2026_entries';
-let picks = {1:null,2:null,3:null};
+let picks = {1:null, 2:null, 3:null};
+let GAS_URL = localStorage.getItem('wc_gas_url') || '';
+let cachedEntries = [];
 
-function getEntries() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+function saveGasUrl() {
+  const url = document.getElementById('gasUrlInput').value.trim();
+  if (!url.startsWith('https://script.google.com')) { showToast('URLが正しくありません', true); return; }
+  GAS_URL = url;
+  localStorage.setItem('wc_gas_url', url);
+  document.getElementById('setupBanner').classList.remove('visible');
+  showToast('設定完了！');
+  loadEntries();
 }
-function saveEntries(arr) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-}
+
+function getFlag(name) { return (COUNTRIES.find(c=>c.name===name)||{flag:''}).flag; }
 
 function buildGrid(rank) {
   const el = document.getElementById('grid'+rank);
@@ -246,14 +254,13 @@ function buildGrid(rank) {
 }
 
 function pickCountry(rank, name) {
-  // 他の順位と同じ国は選べない
-  for(let r=1;r<=3;r++) { if(r!==rank && picks[r]===name) { showToast('他の順位に同じ国を選択中です'); return; } }
+  for(let r=1;r<=3;r++) { if(r!==rank && picks[r]===name) { showToast('他の順位で選択済みです', true); return; } }
   picks[rank] = name;
-  for(let r=1;r<=3;r++) {
+  [1,2,3].forEach(r => {
     document.querySelectorAll(`[data-rank="${r}"]`).forEach(btn => {
       btn.classList.toggle('selected', btn.dataset.name === picks[r]);
     });
-  }
+  });
 }
 
 function buildResultSelects() {
@@ -265,31 +272,29 @@ function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['vote','entries','result'][i]===tab));
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.getElementById('pane-'+tab).classList.add('active');
-  if(tab==='entries') renderEntries();
-  if(tab==='result') { renderEntries(); buildResultSelects(); }
+  if(tab==='entries' || tab==='result') loadEntries();
 }
 
-function submitVote() {
-  const name = document.getElementById('nickname').value.trim();
-  if(!name) { showToast('ニックネームを入力してください'); return; }
-  if(!picks[1]||!picks[2]||!picks[3]) { showToast('1〜3位をすべて選択してください'); return; }
-  const entries = getEntries();
-  if(entries.find(e=>e.name===name)) { showToast('同じニックネームは使えません'); return; }
-  entries.push({ name, p1:picks[1], p2:picks[2], p3:picks[3], ts: Date.now() });
-  saveEntries(entries);
-  picks={1:null,2:null,3:null};
-  document.getElementById('nickname').value='';
-  [1,2,3].forEach(r=>document.querySelectorAll(`[data-rank="${r}"]`).forEach(b=>b.classList.remove('selected')));
-  showToast('投票完了！');
+async function loadEntries() {
+  if(!GAS_URL) return;
+  const el = document.getElementById('entriesList');
+  if(el) el.innerHTML = '<div class="loading"><span class="loading-spin"></span>読み込み中...</div>';
+  try {
+    const res = await fetch(GAS_URL + '?action=getEntries');
+    const data = await res.json();
+    cachedEntries = data.entries || [];
+    document.getElementById('entryCount').textContent = cachedEntries.length;
+    renderEntries();
+  } catch(e) {
+    if(el) el.innerHTML = '<div class="empty">データの取得に失敗しました</div>';
+  }
 }
-
-function getFlag(name) { return (COUNTRIES.find(c=>c.name===name)||{flag:''}).flag; }
 
 function renderEntries() {
-  const entries = getEntries();
   const el = document.getElementById('entriesList');
-  if(!entries.length) { el.innerHTML='<div class="empty">まだ投票がありません</div>'; return; }
-  el.innerHTML = entries.map((e,i)=>`
+  if(!el) return;
+  if(!cachedEntries.length) { el.innerHTML='<div class="empty">まだ投票がありません</div>'; return; }
+  el.innerHTML = cachedEntries.map(e=>`
     <div class="entry-card">
       <div class="entry-avatar">${e.name[0]}</div>
       <div style="flex:1;min-width:0">
@@ -303,17 +308,51 @@ function renderEntries() {
     </div>`).join('');
 }
 
+async function submitVote() {
+  if(!GAS_URL) { showToast('先にGAS URLを設定してください', true); return; }
+  const name = document.getElementById('nickname').value.trim();
+  if(!name) { showToast('ニックネームを入力してください', true); return; }
+  if(!picks[1]||!picks[2]||!picks[3]) { showToast('1〜3位をすべて選択してください', true); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action:'addEntry', name, p1:picks[1], p2:picks[2], p3:picks[3] })
+    });
+    const data = await res.json();
+    if(data.ok) {
+      picks={1:null,2:null,3:null};
+      document.getElementById('nickname').value='';
+      [1,2,3].forEach(r=>document.querySelectorAll(`[data-rank="${r}"]`).forEach(b=>b.classList.remove('selected')));
+      showToast('投票完了！');
+      loadEntries();
+    } else if(data.error==='duplicate') {
+      showToast('そのニックネームはすでに投票済みです', true);
+    } else {
+      showToast('エラーが発生しました', true);
+    }
+  } catch(e) {
+    showToast('通信エラーです', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '投票する';
+  }
+}
+
 function calcResult() {
   const r1 = document.getElementById('res1').value;
   const r2 = document.getElementById('res2').value;
   const r3 = document.getElementById('res3').value;
   const stake = parseInt(document.getElementById('stakeInput').value)||10000;
-  if(!r1||!r2||!r3) { showToast('1〜3位をすべて入力してください'); return; }
-  const entries = getEntries();
-  if(!entries.length) { document.getElementById('resultOutput').innerHTML='<div class="empty">投票データがありません</div>'; return; }
-  const pool = entries.length * stake;
+  if(!r1||!r2||!r3) { showToast('1〜3位をすべて入力してください', true); return; }
+  if(!cachedEntries.length) { document.getElementById('resultOutput').innerHTML='<div class="empty">先に「エントリー」タブを開いてデータを読み込んでください</div>'; return; }
 
-  const scored = entries.map(e => {
+  const pool = cachedEntries.length * stake;
+  const scored = cachedEntries.map(e => {
     let pt = 0;
     if(e.p1===r1) pt+=7;
     if(e.p2===r2) pt+=5;
@@ -339,7 +378,7 @@ function calcResult() {
     </div>`;
   }
 
-  html += `<div class="section-title">最終ランキング</div>`;
+  html += `<div class="section-title">最終ランキング（総プール ¥${pool.toLocaleString()}）</div>`;
   scored.forEach((e,i) => {
     const isWinner = e.pt===maxPt && maxPt>0;
     const payout = isWinner ? prizeEach : 0;
@@ -354,7 +393,7 @@ function calcResult() {
       </div>
       <div style="text-align:right">
         <div class="rank-pts">${e.pt}pt</div>
-        <div class="rank-payout ${net>=0?'':'lose'}">${net>=0?'+':'''}${net.toLocaleString()}円</div>
+        <div class="rank-payout ${net>=0?'':'lose'}">${net>=0?'+':''}${net.toLocaleString()}円</div>
       </div>
     </div>`;
   });
@@ -362,14 +401,20 @@ function calcResult() {
   document.getElementById('resultOutput').innerHTML = html;
 }
 
-function showToast(msg) {
+function showToast(msg, isError=false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
+  t.className = 'toast' + (isError?' error':'') + ' show';
+  setTimeout(()=>t.classList.remove('show'), 2400);
 }
 
 // Init
+if(GAS_URL) {
+  document.getElementById('setupBanner').classList.remove('visible');
+  loadEntries();
+} else {
+  document.getElementById('gasUrlInput').value = '';
+}
 [1,2,3].forEach(buildGrid);
 buildResultSelects();
 </script>
