@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W杯優勝予想バトル 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F5C842;
+    --gold-dim: #C9A020;
+    --bg: #0a0e1a;
+    --surface: #131828;
+    --surface2: #1c2438;
+    --border: rgba(245,200,66,0.2);
+    --text: #e8ecf4;
+    --muted: #7a839a;
+    --red: #e84545;
+    --green: #3ddc84;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 0%, rgba(245,200,66,0.06) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 100%, rgba(61,100,200,0.08) 0%, transparent 60%);
+  }
+  .container { max-width: 680px; margin: 0 auto; padding: 24px 20px 80px; }
+
+  /* Header */
+  .header { text-align: center; padding: 32px 0 40px; position: relative; }
+  .header-eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 8px; }
+  .header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 72px); line-height: 0.9; color: var(--text); letter-spacing: 0.02em; }
+  .header-title span { color: var(--gold); }
+  .header-sub { font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+  .rule-badge { display: inline-flex; gap: 8px; margin-top: 16px; }
+  .rule-pill { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--gold); }
+
+  /* Tabs */
+  .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 28px; gap: 0; }
+  .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-left: none; border-right: none; border-top: none; font-family: 'Noto Sans JP', sans-serif; }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* Vote form */
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .field input[type=text] {
+    width: 100%; background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: 8px; padding: 12px 14px; font-size: 15px; color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif; outline: none; transition: border-color 0.2s;
+  }
+  .field input[type=text]:focus { border-color: var(--gold); }
+
+  .country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .country-btn {
+    background: var(--surface); border: 0.5px solid var(--border); border-radius: 8px;
+    padding: 10px 8px; text-align: center; cursor: pointer; transition: all 0.15s;
+    font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif;
+  }
+  .country-btn:hover { border-color: rgba(245,200,66,0.5); background: var(--surface2); }
+  .country-btn.selected { border-color: var(--gold); background: rgba(245,200,66,0.1); color: var(--gold); font-weight: 700; }
+  .flag { font-size: 22px; display: block; margin-bottom: 4px; }
+
+  .rank-section { margin-bottom: 24px; }
+  .rank-label { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .rank-1 { color: var(--gold); }
+  .rank-2 { color: #b0bec5; }
+  .rank-3 { color: #cd7c3b; }
+
+  .submit-btn {
+    width: 100%; padding: 16px; background: var(--gold); color: var(--bg);
+    border: none; border-radius: 8px; font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; letter-spacing: 0.1em; cursor: pointer; transition: opacity 0.2s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Results */
+  .entry-card {
+    background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center;
+  }
+  .entry-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
+  .entry-name { font-size: 14px; font-weight: 700; }
+  .entry-picks { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .pick-chip { font-size: 11px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 8px; }
+  .pick-chip span { opacity: 0.6; margin-right: 3px; }
+  .entry-pts { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); margin-left: auto; flex-shrink: 0; }
+  .pts-label { font-size: 10px; color: var(--muted); font-family: 'Noto Sans JP'; font-weight: 400; }
+
+  /* Result admin */
+  .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .result-row label { font-size: 12px; color: var(--muted); min-width: 60px; }
+  .result-select {
+    background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; font-size: 13px; color: var(--text); font-family: 'Noto Sans JP', sans-serif;
+    outline: none; flex: 1;
+  }
+  .calc-btn {
+    width: 100%; padding: 13px; background: transparent; color: var(--gold);
+    border: 0.5px solid var(--gold); border-radius: 8px; font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 0.1em; cursor: pointer; margin-top: 8px; transition: all 0.2s;
+  }
+  .calc-btn:hover { background: rgba(245,200,66,0.1); }
+
+  .winner-banner { background: rgba(245,200,66,0.1); border: 1px solid var(--gold); border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 16px; }
+  .winner-crown { font-size: 32px; margin-bottom: 8px; }
+  .winner-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); }
+  .winner-prize { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .winner-prize strong { color: var(--green); font-size: 18px; }
+
+  .ranking-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+  .rank-pos { font-family: 'Bebas Neue', sans-serif; font-size: 22px; width: 28px; text-align: center; }
+  .rank-pos.p1 { color: var(--gold); }
+  .rank-pos.p2 { color: #b0bec5; }
+  .rank-pos.p3 { color: #cd7c3b; }
+  .rank-pos.pn { color: var(--muted); }
+  .rank-name { flex: 1; font-size: 14px; font-weight: 700; }
+  .rank-picks-sm { font-size: 11px; color: var(--muted); }
+  .rank-pts { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+  .rank-payout { font-size: 13px; color: var(--green); text-align: right; min-width: 80px; }
+  .rank-payout.lose { color: var(--red); }
+
+  .empty { text-align: center; padding: 48px 0; color: var(--muted); font-size: 14px; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--green); color: #0a0e1a; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; }
+
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 20px 0; }
+  .section-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-eyebrow">FIFA World Cup 2026</div>
+    <div class="header-title">優勝<span>予想</span><br>バトル</div>
+    <div class="header-sub">1〜3位を予想して最高得点の人が総取り</div>
+    <div class="rule-badge">
+      <span class="rule-pill">優勝的中 7pt</span>
+      <span class="rule-pill">準優勝 5pt</span>
+      <span class="rule-pill">3位 3pt</span>
+      <span class="rule-pill">1位総取り</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('vote')">投票する</button>
+    <button class="tab" onclick="switchTab('entries')">エントリー一覧</button>
+    <button class="tab" onclick="switchTab('result')">結果・精算</button>
+  </div>
+
+  <!-- 投票タブ -->
+  <div class="tab-pane active" id="pane-vote">
+    <div class="field">
+      <label>ニックネーム</label>
+      <input type="text" id="nickname" placeholder="例: タロウ" maxlength="20">
+    </div>
+    <div class="rank-section">
+      <div class="rank-label rank-1">🥇 優勝（7pt）</div>
+      <div class="country-grid" id="grid1"></div>
+    </div>
+    <div class="rank-section">
+      <div class="rank-label rank-2">🥈 準優勝（5pt）</div>
+      <div class="country-grid" id="grid2"></div>
+    </div>
+    <div class="rank-section">
+      <div class="rank-label rank-3">🥉 3位（3pt）</div>
+      <div class="country-grid" id="grid3"></div>
+    </div>
+    <button class="submit-btn" id="submitBtn" onclick="submitVote()">投票する</button>
+  </div>
+
+  <!-- エントリー一覧タブ -->
+  <div class="tab-pane" id="pane-entries">
+    <div id="entriesList"></div>
+  </div>
+
+  <!-- 結果・精算タブ -->
+  <div class="tab-pane" id="pane-result">
+    <div class="section-title">実際の結果を入力</div>
+    <div class="result-row">
+      <label>🥇 優勝国</label>
+      <select class="result-select" id="res1"></select>
+    </div>
+    <div class="result-row">
+      <label>🥈 準優勝</label>
+      <select class="result-select" id="res2"></select>
+    </div>
+    <div class="result-row">
+      <label>🥉 3位</label>
+      <select class="result-select" id="res3"></select>
+    </div>
+    <div class="field" style="margin-top:16px;">
+      <label>一人あたり拠出額（円）</label>
+      <input type="text" id="stakeInput" value="10000" placeholder="10000">
+    </div>
+    <button class="calc-btn" onclick="calcResult()">得点・配分を計算する</button>
+    <div id="resultOutput" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const COUNTRIES = [
+  {name:'ブラジル', flag:'🇧🇷'},
+  {name:'フランス', flag:'🇫🇷'},
+  {name:'イングランド', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
+  {name:'アルゼンチン', flag:'🇦🇷'},
+  {name:'スペイン', flag:'🇪🇸'},
+  {name:'ドイツ', flag:'🇩🇪'},
+  {name:'ポルトガル', flag:'🇵🇹'},
+  {name:'オランダ', flag:'🇳🇱'},
+  {name:'ベルギー', flag:'🇧🇪'},
+  {name:'イタリア', flag:'🇮🇹'},
+  {name:'クロアチア', flag:'🇭🇷'},
+  {name:'モロッコ', flag:'🇲🇦'},
+  {name:'日本', flag:'🇯🇵'},
+  {name:'アメリカ', flag:'🇺🇸'},
+  {name:'メキシコ', flag:'🇲🇽'},
+  {name:'コロンビア', flag:'🇨🇴'},
+];
+
+const STORAGE_KEY = 'wc2026_entries';
+let picks = {1:null,2:null,3:null};
+
+function getEntries() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveEntries(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function buildGrid(rank) {
+  const el = document.getElementById('grid'+rank);
+  el.innerHTML = COUNTRIES.map(c => `
+    <button class="country-btn" data-rank="${rank}" data-name="${c.name}" onclick="pickCountry(${rank},'${c.name}')">
+      <span class="flag">${c.flag}</span>${c.name}
+    </button>`).join('');
+}
+
+function pickCountry(rank, name) {
+  // 他の順位と同じ国は選べない
+  for(let r=1;r<=3;r++) { if(r!==rank && picks[r]===name) { showToast('他の順位に同じ国を選択中です'); return; } }
+  picks[rank] = name;
+  for(let r=1;r<=3;r++) {
+    document.querySelectorAll(`[data-rank="${r}"]`).forEach(btn => {
+      btn.classList.toggle('selected', btn.dataset.name === picks[r]);
+    });
+  }
+}
+
+function buildResultSelects() {
+  const opts = `<option value="">---</option>` + COUNTRIES.map(c=>`<option value="${c.name}">${c.flag} ${c.name}</option>`).join('');
+  ['res1','res2','res3'].forEach(id => { document.getElementById(id).innerHTML = opts; });
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['vote','entries','result'][i]===tab));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-'+tab).classList.add('active');
+  if(tab==='entries') renderEntries();
+  if(tab==='result') { renderEntries(); buildResultSelects(); }
+}
+
+function submitVote() {
+  const name = document.getElementById('nickname').value.trim();
+  if(!name) { showToast('ニックネームを入力してください'); return; }
+  if(!picks[1]||!picks[2]||!picks[3]) { showToast('1〜3位をすべて選択してください'); return; }
+  const entries = getEntries();
+  if(entries.find(e=>e.name===name)) { showToast('同じニックネームは使えません'); return; }
+  entries.push({ name, p1:picks[1], p2:picks[2], p3:picks[3], ts: Date.now() });
+  saveEntries(entries);
+  picks={1:null,2:null,3:null};
+  document.getElementById('nickname').value='';
+  [1,2,3].forEach(r=>document.querySelectorAll(`[data-rank="${r}"]`).forEach(b=>b.classList.remove('selected')));
+  showToast('投票完了！');
+}
+
+function getFlag(name) { return (COUNTRIES.find(c=>c.name===name)||{flag:''}).flag; }
+
+function renderEntries() {
+  const entries = getEntries();
+  const el = document.getElementById('entriesList');
+  if(!entries.length) { el.innerHTML='<div class="empty">まだ投票がありません</div>'; return; }
+  el.innerHTML = entries.map((e,i)=>`
+    <div class="entry-card">
+      <div class="entry-avatar">${e.name[0]}</div>
+      <div style="flex:1;min-width:0">
+        <div class="entry-name">${e.name}</div>
+        <div class="entry-picks">
+          <span class="pick-chip"><span>🥇</span>${getFlag(e.p1)} ${e.p1}</span>
+          <span class="pick-chip"><span>🥈</span>${getFlag(e.p2)} ${e.p2}</span>
+          <span class="pick-chip"><span>🥉</span>${getFlag(e.p3)} ${e.p3}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function calcResult() {
+  const r1 = document.getElementById('res1').value;
+  const r2 = document.getElementById('res2').value;
+  const r3 = document.getElementById('res3').value;
+  const stake = parseInt(document.getElementById('stakeInput').value)||10000;
+  if(!r1||!r2||!r3) { showToast('1〜3位をすべて入力してください'); return; }
+  const entries = getEntries();
+  if(!entries.length) { document.getElementById('resultOutput').innerHTML='<div class="empty">投票データがありません</div>'; return; }
+  const pool = entries.length * stake;
+
+  const scored = entries.map(e => {
+    let pt = 0;
+    if(e.p1===r1) pt+=7;
+    if(e.p2===r2) pt+=5;
+    if(e.p3===r3) pt+=3;
+    return {...e, pt};
+  }).sort((a,b)=>b.pt-a.pt);
+
+  const maxPt = scored[0].pt;
+  const winners = scored.filter(e=>e.pt===maxPt);
+  const prizeEach = maxPt>0 ? Math.round(pool/winners.length) : 0;
+
+  let html = '';
+  if(maxPt > 0) {
+    html += `<div class="winner-banner">
+      <div class="winner-crown">🏆</div>
+      <div class="winner-name">${winners.map(w=>w.name).join(' & ')}</div>
+      <div class="winner-prize">獲得賞金 <strong>¥${prizeEach.toLocaleString()}</strong>${winners.length>1?' (山分け)':''}</div>
+    </div>`;
+  } else {
+    html += `<div class="winner-banner" style="border-color:var(--muted)">
+      <div class="winner-crown">😅</div>
+      <div class="winner-name" style="color:var(--muted);font-size:22px">全員ハズレ</div>
+    </div>`;
+  }
+
+  html += `<div class="section-title">最終ランキング</div>`;
+  scored.forEach((e,i) => {
+    const isWinner = e.pt===maxPt && maxPt>0;
+    const payout = isWinner ? prizeEach : 0;
+    const net = payout - stake;
+    const pos = i+1;
+    const cls = pos===1?'p1':pos===2?'p2':pos===3?'p3':'pn';
+    html += `<div class="ranking-row">
+      <div class="rank-pos ${cls}">${pos}</div>
+      <div style="flex:1">
+        <div class="rank-name">${e.name}</div>
+        <div class="rank-picks-sm">${getFlag(e.p1)}${e.p1} / ${getFlag(e.p2)}${e.p2} / ${getFlag(e.p3)}${e.p3}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="rank-pts">${e.pt}pt</div>
+        <div class="rank-payout ${net>=0?'':'lose'}">${net>=0?'+':'''}${net.toLocaleString()}円</div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('resultOutput').innerHTML = html;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// Init
+[1,2,3].forEach(buildGrid);
+buildResultSelects();
+</script>
+</body>
+</html>
