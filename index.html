@@ -96,19 +96,19 @@
       <span class="rule-pill">1位総取り</span>
     </div>
   </div>
-
+ 
   <div class="setup-banner" id="setupBanner">
     <div class="setup-label">⚙️ 初回設定：Google Apps Script の URL を入力してください</div>
     <input class="setup-input" type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/xxxxxx/exec">
     <button class="setup-btn" onclick="saveGasUrl()">設定して始める</button>
   </div>
-
+ 
   <div class="tabs">
     <button class="tab active" onclick="switchTab('vote')">投票する</button>
     <button class="tab" onclick="switchTab('entries')">エントリー <span id="entryCount" class="count-badge">-</span></button>
     <button class="tab" onclick="switchTab('result')">結果・精算</button>
   </div>
-
+ 
   <div class="tab-pane active" id="pane-vote">
     <div class="field">
       <label>ニックネーム</label>
@@ -132,11 +132,11 @@
     <div class="country-grid" id="countryGrid"></div>
     <button class="submit-btn" id="submitBtn" onclick="submitVote()">投票する</button>
   </div>
-
+ 
   <div class="tab-pane" id="pane-entries">
     <div id="entriesList"></div>
   </div>
-
+ 
   <div class="tab-pane" id="pane-result">
     <div class="section-title">実際の結果を入力</div>
     <div class="result-row"><label>🥇 優勝国</label><select class="result-select" id="res1"></select></div>
@@ -150,9 +150,9 @@
     <div id="resultOutput" style="margin-top:20px;"></div>
   </div>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 const COUNTRIES = [
   'アルゼンチン','ブラジル','コロンビア','エクアドル','パラグアイ','ウルグアイ',
@@ -164,13 +164,13 @@ const COUNTRIES = [
   'モロッコ','エジプト','セネガル','コートジボワール','ナイジェリア','南アフリカ','カメルーン','チュニジア',
   'ニュージーランド'
 ];
-
+ 
 const RANK_COLORS = {1:'var(--gold)', 2:'#b0bec5', 3:'#cd7c3b'};
 const RANK_MEDALS = {1:'🥇', 2:'🥈', 3:'🥉'};
 let picks = {1:null, 2:null, 3:null};
 let GAS_URL = localStorage.getItem('wc_gas_url') || '';
 let cachedEntries = [];
-
+ 
 function saveGasUrl() {
   const url = document.getElementById('gasUrlInput').value.trim();
   if (!url.startsWith('https://script.google.com')) { showToast('URLが正しくありません', true); return; }
@@ -180,14 +180,14 @@ function saveGasUrl() {
   showToast('設定完了！');
   loadEntries();
 }
-
+ 
 function buildGrid() {
   const el = document.getElementById('countryGrid');
   el.innerHTML = COUNTRIES.map(name =>
     `<button class="country-btn" data-name="${name}" onclick="pickCountry('${name}')">${name}</button>`
   ).join('');
 }
-
+ 
 function pickCountry(name) {
   const currentRank = [1,2,3].find(r => picks[r] === name);
   if (currentRank) {
@@ -201,7 +201,7 @@ function pickCountry(name) {
   }
   updateSelectionUI();
 }
-
+ 
 function updateSelectionUI() {
   [1,2,3].forEach(r => {
     const el = document.getElementById('sel' + r + '-name');
@@ -220,19 +220,19 @@ function updateSelectionUI() {
     }
   });
 }
-
+ 
 function buildResultSelects() {
   const opts = '<option value="">---</option>' + COUNTRIES.map(n => `<option value="${n}">${n}</option>`).join('');
   ['res1','res2','res3'].forEach(id => { document.getElementById(id).innerHTML = opts; });
 }
-
+ 
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['vote','entries','result'][i] === tab));
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.getElementById('pane-' + tab).classList.add('active');
   if (tab === 'entries' || tab === 'result') loadEntries();
 }
-
+ 
 async function loadEntries() {
   if (!GAS_URL) return;
   const el = document.getElementById('entriesList');
@@ -247,7 +247,7 @@ async function loadEntries() {
     if (el) el.innerHTML = '<div class="empty">データの取得に失敗しました</div>';
   }
 }
-
+ 
 function renderEntries() {
   const el = document.getElementById('entriesList');
   if (!el) return;
@@ -265,7 +265,7 @@ function renderEntries() {
       </div>
     </div>`).join('');
 }
-
+ 
 async function submitVote() {
   if (!GAS_URL) { showToast('先にGAS URLを設定してください', true); return; }
   const name = document.getElementById('nickname').value.trim();
@@ -276,9 +276,11 @@ async function submitVote() {
   try {
     const res = await fetch(GAS_URL, {
       method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify({ action:'addEntry', name, p1:picks[1], p2:picks[2], p3:picks[3] })
     });
-    const data = await res.json();
+    // no-corsではレスポンスが読めないため成功とみなす
+    const data = { ok: true };
     if (data.ok) {
       picks = {1:null, 2:null, 3:null};
       document.getElementById('nickname').value = '';
@@ -296,7 +298,7 @@ async function submitVote() {
     btn.disabled = false; btn.textContent = '投票する';
   }
 }
-
+ 
 function calcResult() {
   const r1 = document.getElementById('res1').value;
   const r2 = document.getElementById('res2').value;
@@ -333,14 +335,14 @@ function calcResult() {
   });
   document.getElementById('resultOutput').innerHTML = html;
 }
-
+ 
 function showToast(msg, isError=false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast' + (isError ? ' error' : '') + ' show';
   setTimeout(() => t.classList.remove('show'), 2400);
 }
-
+ 
 // Init
 if (GAS_URL) {
   loadEntries();
@@ -352,3 +354,4 @@ buildResultSelects();
 </script>
 </body>
 </html>
+ 
